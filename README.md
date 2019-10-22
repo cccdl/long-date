@@ -61,9 +61,15 @@ export default {
 | type  | String  |day| 否| day：未来天数模式；between：区间模式
 | getDayNum  | Number  | 7| 否|未来天数模式，设置后展示当前时间的未来默认7天的时间选项
 | chooesMaxDay  | Number  | 0| 否|未来天数模式，设置后，验证选择时间是否大于当前时间chooesMaxDay天，0为不验证; >0则验证大于chooesMaxDay天
-| openStatus  | Boolean  | false| 否|是否展开picker-view滚动选择器
+| openStatus  | Boolean  | false | 否|是否展开picker-view滚动选择器
 | startTime  | String  | 2018-10-01| 否|区间模式；必填，开始时间
 | endTime  | String  | 2019-01-01| 否|区间模式；必填，结束时间
+
+属性名  | 类型  | 默认值 | 是否必填 | 说明
+ ---- | ----- | ------ | ------ | ------
+ 单元格内容  | 单元格内容 | 单元格内容 
+ 单元格内容  | 单元格内容 | 单元格内容 
+
 
 #### 方法说明：
 | 时间名  | 类型 |  说明 |

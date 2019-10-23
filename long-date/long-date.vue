@@ -206,29 +206,31 @@
 
 			//获取几天后的描述
 			desc: function() {
-				let chooes_time = this.chooesDate
+				let chooes_time = new Date(this.chooesDate.toLocaleDateString())
+
 				// var chooes_time = Date.parse(new Date('2019-10-30 10:00:00')) / 1000
-				let now_time = new Date()
+				let now_time = new Date(new Date().toLocaleDateString())
 
 				//获取多少秒
 				let haveSecond = (chooes_time - now_time) / 86400000;
+			
 
-				if (haveSecond < 1) {
+				if (haveSecond == 0) {
 					return '今天'
-				} else if (haveSecond > 1 && haveSecond <= 2) {
+				} else if (haveSecond == 1) {
 					return '明天'
-				} else if (haveSecond > 2 && haveSecond <= 3) {
+				} else if (haveSecond == 2) {
 					return '后天'
-				} else if (haveSecond > 3 && haveSecond <= 4) {
+				} else if (haveSecond == 3) {
 					return '3天后'
-				} else if (haveSecond > 4 && haveSecond <= 5) {
+				} else if (haveSecond == 4) {
 					return '4天后'
-				} else if (haveSecond > 5 && haveSecond <= 6) {
+				} else if (haveSecond == 5) {
 					return '5天后'
-				} else if (haveSecond > 6 && haveSecond <= 7) {
+				} else if (haveSecond == 6) {
 					return '6天后'
-				} else if (haveSecond > 7) {
-					return '7天后'
+				} else if (haveSecond == 7) {
+					return '一周后'
 				}
 			},
 
@@ -299,13 +301,11 @@
 
 					let haveSecond = chooes_time - new Date();
 
-
-					console.log(haveSecond)
 					if (haveSecond < 0) {
 						this.checkStr = '时间不能小于当前时间'
 						this.showCheck = true
 					} else {
-						
+
 						if ((haveSecond / 86400000) > max_day) {
 							this.checkStr = '时间不能大于' + max_day + '天'
 							this.showCheck = true
@@ -315,10 +315,10 @@
 						}
 
 					}
-					
-					
 
-					
+
+
+
 				}
 				this.selectRes = this.year + '-' + this.month + '-' + this.day + ' ' + this.hour + ':' + this.minute;
 

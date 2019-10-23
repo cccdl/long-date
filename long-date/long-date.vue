@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="long-data">
-			<view class="long-data-title long-data-fl">时间</view>
+			<view class="long-data-title long-data-fl">开奖时间</view>
 			<!-- <view class="long-data-fr long-data-changeTimeIcon" @tap="openStatus">></view> -->
 			<view class="long-data-changeTime long-data-fr" @tap="tapIsShow">{{year}}年{{month}}月{{day}}日 {{week}} {{hour}}:{{minute}}{{ type == 'day' ? '(' + desc + ')' : ''}}
 				<view v-if="showCheck" class="long-data-check">{{checkStr}}</view>
@@ -33,41 +33,41 @@
 	export default {
 		name: "long-date",
 		props: {
-			openStatus: { 
+			openStatus: { //是否展开状态
 				type: Boolean,
 				default () {
-					return false 
+					return false //默认不展开
 				}
 			},
 
-			type: { 
+			type: { //模式
 				type: String,
 				default () {
-					// return 'between' 
-					return 'day'
+					// return 'between' //根据开始时间和结束模式获取
+					return 'day' //以天数获取开始时间模式
 				}
 			},
-			getDayNum: { 
+			getDayNum: { //获取天数（day模式可用）
 				type: Number,
 				default () {
 					return 7
 				}
 			},
-			chooesMaxDay: { 
+			chooesMaxDay: { //是否设置最大选择天数 （day模式可用）
 				type: Number,
 				default () {
-					return 0 
+					return 0 // 0 默认不设置  >0代表天数
 				}
 			},
 
-			startTime: { 
+			startTime: { //开始时间（between模式可用）
 				type: String,
 				default () {
 					return ''
 				}
 			},
 
-			endTime: { 
+			endTime: { //结束时间（between模式可用）
 				type: String,
 				default () {
 					return ''
@@ -83,53 +83,61 @@
 
 				case 'between':
 
-					
+					//获取开始时间
 					var startDate = new Date(this.startTime + ' 00:00:00')
 
-					
+					//获取结束时间
 					var endDate = new Date(this.endTime + ' 00:00:00');
 
-					
+					//设置默认选择时间
 					var chooesDate = new Date(this.startTime + ' 00:00:00')
 
-					
+					//获取多少天日期
 					var num = (endDate - startDate) / 86400000
 
 					break;
 
 				case 'day':
 
-					
+					//获取当前时间
 					var startDate = new Date();
 
-					
+					//设置默认选择时间
 					var chooesDate = new Date();
 
-					
+					//获取多少天日期
 					var num = this.getDayNum
 
 					break;
 			}
 
+			//获取年份
 			let year = chooesDate.getFullYear()
 
+			//获取月份
 			let month = chooesDate.getMonth() + 1
 
+			//获取当前日(1-31)       
 			let day = chooesDate.getDate()
 
+			//获取当前的小时 并格式化1-10数字
 			let h = chooesDate.getHours()
 			let hour = h < 10 ? '0' + h : h
 
+			//获取当前的分钟数 并格式化1-10数字
 			let m = chooesDate.getMinutes()
 			let minute = m < 10 ? '0' + m : m
 
+			//设置日期数组
 			let dates = []
 
+			//设置小时数数组
 			let hours = []
 
+			//设置分钟数数组
 			let minutes = []
 
-			for (let i = 0; i <= num; i++) {
+			for (let i = 0; i <= num; i++) { //获取包括的日期
 
 				if (i != 0) {
 					startDate.setDate(startDate.getDate() + 1)
@@ -183,6 +191,7 @@
 				day,
 				hour,
 				minute,
+				// second,
 				dateObj,
 				checkStr: '时间不能小于当前时间',
 				showCheck: false,
@@ -195,12 +204,13 @@
 
 		computed: {
 
-			
+			//获取几天后的描述
 			desc: function() {
 				let chooes_time = this.chooesDate
+				// var chooes_time = Date.parse(new Date('2019-10-30 10:00:00')) / 1000
 				let now_time = new Date()
 
-				
+				//获取多少秒
 				let haveSecond = (chooes_time - now_time) / 86400000;
 
 				if (haveSecond < 1) {
@@ -222,7 +232,7 @@
 				}
 			},
 
-			
+			//获取星期几
 			week: function() {
 				let week = this.chooesDate.getDay()
 				switch (week) {
@@ -251,18 +261,22 @@
 			},
 		},
 		mounted() {
+			this.initDate();
 		},
 		methods: {
-			
+			//初始化时间
+			initDate() {
+
+			},
 
 
-			
+			//切换日期选择显示状态
 			tapIsShow() {
 				this.isShow = !this.isShow
 			},
 
-			
-			bindDateChange(e) { 
+			//滚动切换时间
+			bindDateChange(e) { //有效日期的滚动日期时间方法
 				let valueArr = e.detail.value;
 
 				let dateStr = this.dateObj.dates[valueArr[0]];
@@ -282,16 +296,29 @@
 
 				let max_day = this.chooesMaxDay;
 				if (max_day > 0 && this.type == 'day') {
+
 					let haveSecond = chooes_time - new Date();
+
+
+					console.log(haveSecond)
 					if (haveSecond < 0) {
 						this.checkStr = '时间不能小于当前时间'
 						this.showCheck = true
 					} else {
+						
 						if ((haveSecond / 86400000) > max_day) {
 							this.checkStr = '时间不能大于' + max_day + '天'
 							this.showCheck = true
+						} else {
+							this.checkStr = ''
+							this.showCheck = false
 						}
+
 					}
+					
+					
+
+					
 				}
 				this.selectRes = this.year + '-' + this.month + '-' + this.day + ' ' + this.hour + ':' + this.minute;
 

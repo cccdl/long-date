@@ -9,8 +9,7 @@
 			<!-- <view class="long-data-check-triangle"></view> -->
 		</view>
 		<view class="long-data-picker" :style="'display:' + [isShow ? 'block' : 'none']">
-			<picker-view :indicator-style="itemHeight" :value="dateValues" @change="bindDateChange">
-
+			<picker-view class="long-data-picker-view" :indicator-style="itemHeight" :value="dateValues" @change="bindDateChange">
 				<picker-view-column>
 					<view class="long-datetime-item" v-for="(item,index) in dateObj.dates" :key="index">{{item}}</view>
 				</picker-view-column>
@@ -263,13 +262,13 @@
 			},
 		},
 		mounted() {
-			this.initDate();
+			// this.initDate();
 		},
 		methods: {
 			//初始化时间
-			initDate() {
+			// initDate() {
 
-			},
+			// },
 
 
 			//切换日期选择显示状态
@@ -286,17 +285,19 @@
 				let minuteStr = this.dateObj.minutes[valueArr[2]];
 
 				let chooes_time = new Date(dateStr + ' ' + hourStr + ':' + minuteStr)
+				
 				this.chooesDate = chooes_time
 				this.year = chooes_time.getFullYear()
 				this.month = chooes_time.getMonth() + 1
 				this.day = chooes_time.getDate()
-
 				let h = chooes_time.getHours()
 				let m = chooes_time.getMinutes()
 				this.hour = h < 10 ? '0' + h : h
 				this.minute = m < 10 ? '0' + m : m
+				
 
 				let max_day = this.chooesMaxDay;
+				
 				if (max_day > 0 && this.type == 'day') {
 
 					let haveSecond = chooes_time - new Date();
@@ -413,7 +414,7 @@
 		font-size: 30upx;
 	}
 
-	.long-data-picker picker-view {
+	.long-data-picker-view{
 		height: 100%;
 	}
 </style>
